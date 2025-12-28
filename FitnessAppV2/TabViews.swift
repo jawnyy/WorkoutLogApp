@@ -17,9 +17,14 @@ struct HomeView: View {
 }
 
 struct WorkoutsView: View {
-    @State private var workouts : [Workouts] = Workouts.DefalutWorkouts()
+    @State private var workouts : [Workouts] = Workouts.DefaultWorkouts()
     var body: some View {
         // NavigationStack for later development
+//        Text("Group Specific Workouts\n")
+//            .fontWeight(.bold)
+//            .font(.title)
+//            .padding(.leading, 25)
+//            .frame(maxWidth: .infinity, alignment: .leading)
         
         Table(workouts) {
             TableColumn("Name") { workout in
