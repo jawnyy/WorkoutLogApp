@@ -9,24 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var selectedTab = 0
+    @State private var selectedTab : Tab = .Home
     
     var body: some View {
-        TabView {
+        
+        TabView(selection: $selectedTab) {
+            /* Navigation Stack would go here somewhere */
+            
             HomeView()
                 .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
+                    Label("Home", systemImage: "house.fill")
                 }
-            
+                .tag(Tab.Home)
+
             WorkoutsView()
                 .tabItem {
-                    Image(systemName: "figure.strengthtraining.traditional")
-                    Text("Workouts")
+                    Label("Workouts", systemImage: "figure.strengthtraining.traditional")
                 }
+                .tag(Tab.Workouts)
         }
-        .padding(10)
     }
+}
+
+enum Tab {
+    case Home
+    case Workouts
 }
 
 #Preview {
