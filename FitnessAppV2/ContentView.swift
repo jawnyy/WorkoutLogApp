@@ -11,6 +11,25 @@ struct ContentView: View {
     
     @State private var selectedTab : Tab = .Home
     
+    init() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.darkGray
+
+        appearance.stackedLayoutAppearance.selected.iconColor = .orange
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
+            .foregroundColor: UIColor.orange
+        ]
+
+        appearance.stackedLayoutAppearance.normal.iconColor = UIColor.lightGray // dark
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
+            .foregroundColor: UIColor.lightGray // dark
+        ]
+
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var body: some View {
         
         TabView(selection: $selectedTab) {
