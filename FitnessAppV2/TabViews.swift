@@ -28,7 +28,16 @@ struct WorkoutsView: View {
     @State private var workouts : [Workouts] = Workouts.DefaultWorkouts()
     
     @State private var selectedPart = "All"
-    let parts = ["All", "Biceps", "Triceps", "Chest", "Back", "Shoulders", "Legs"]
+    let parts = ["All", "Biceps", "Triceps", "Chest", "Upper Back","Lower Back", "Shoulders", "Lats", "Core", "Quads", "Hamstrings", "Adductors", "Abductors", "Calves"]
+    
+
+    var filteredWorkouts: [Workouts] {
+        if selectedPart == "All" {
+            return workouts
+        } else {
+            return workouts.filter { $0.description == selectedPart }
+        }
+    }
     
     var body: some View {
         VStack {
@@ -40,7 +49,7 @@ struct WorkoutsView: View {
             .padding(.top, 10)
             .pickerStyle(.menu)
             
-            Table(workouts) {
+            Table(filteredWorkouts) {
                 TableColumn("Name") { workout in
                     VStack(alignment: .leading) {
                         Text(workout.name)
