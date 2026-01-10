@@ -58,3 +58,11 @@ struct Workouts: Identifiable, Hashable {
             Workouts(name: "Standing Calf Raises", description: "Calves")]
     }
 }
+
+struct LogWorkout : Identifiable, Hashable {
+    let id = UUID()
+    let name: String
+    let date: Date
+    let weight: Float
+    let sets: Int
+}

@@ -40,6 +40,12 @@ struct ContentView: View {
                     Label("Home", systemImage: "house.fill")
                 }
                 .tag(Tab.Home)
+            
+            LogView()
+                .tabItem {
+                    Label("Log", systemImage: "plus.circle.fill")
+                }
+                .tag(Tab.Home)
 
             WorkoutsView()
                 .tabItem {
