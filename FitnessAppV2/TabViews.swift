@@ -27,6 +27,11 @@ struct HomeView: View {
 }
 
 struct LogView: View {
+    
+    @State private var workoutName = ""
+    @State private var weight = ""
+    @State private var sets = ""
+    
     var body: some View {
         VStack{
             Text("Log a workout")
@@ -34,10 +39,26 @@ struct LogView: View {
                 .padding(.top, 40)
             Spacer()
             
+            Form {
+                
+                TextField("Workout name", text: $workoutName)
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                TextField("Weight amount", text: $weight)
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                TextField("Number of sets", text: $sets)
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+            }
+            .padding()
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
+            
             Button("Log") {
                 /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
             }
-            .padding(.bottom, 40)
+            .padding(.bottom, 300)
             .buttonStyle(.bordered)
         }
     }
