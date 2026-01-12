@@ -32,6 +32,55 @@ struct LogView: View {
     @State private var weight = ""
     @State private var sets = ""
     
+    // I should probably move this...
+    let workoutList = [
+        "Dumbbell Curls",
+        "Preacher Curls",
+        "Incline Dumbbell Curls",
+        "Barbell Curls",
+        "Hammer Curls",
+        "Tricep Extensions",
+        "Overhead Tricep Extensions",
+        "Skullcrushers",
+        "Rope Tricep Extensions",
+        "Tricep Dips",
+        "Seated Dumbbell Press",
+        "Cable Lateral Raise",
+        "Cable Face Pull",
+        "Machine Reverse Fly",
+        "Dumbbell Bench Press",
+        "Incline Dumbbell Bench Press",
+        "Pec Deck",
+        "Chest Dip",
+        "Machine Bench Press",
+        "Seated Cable Row",
+        "Machine Row",
+        "Dumbbell Deadlift",
+        "Lat Pull Down",
+        "Pull Up",
+        "Machine Lat Pull Down",
+        "Seated Machine Curl",
+        "Leg Raise",
+        "Machine Obliques",
+        "Leg Extension",
+        "Leg Press",
+        "Machine Hack Squat",
+        "Leg Curl",
+        "Seated Leg Curl",
+        "Romanian Deadlift",
+        "Hip Adduction Machine",
+        "Hip Abduction Machine",
+        "Standing Calf Raises"
+    ]
+    
+    var availableWorkouts: [String] {
+        workoutList.filter {
+            workoutName.isEmpty
+            ? false
+            : $0.localizedCaseInsensitiveContains(workoutName)
+        }
+    }
+    
     var body: some View {
         VStack{
             Text("Log a workout")
@@ -44,11 +93,24 @@ struct LogView: View {
                 TextField("Workout name", text: $workoutName)
                     .textFieldStyle(.roundedBorder)
                     .padding()
+                
+                ForEach(availableWorkouts, id: \.self) { suggestion in
+                        Text(suggestion)
+                        .padding(8)
+                        .foregroundColor(Color.blue)
+                            .onTapGesture {
+                                workoutName = suggestion
+                            }
+                    }
+                
                 TextField("Weight amount", text: $weight)
                     .textFieldStyle(.roundedBorder)
+                    .keyboardType(.decimalPad)
                     .padding()
+                
                 TextField("Number of sets", text: $sets)
                     .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
                     .padding()
             }
             .padding()
