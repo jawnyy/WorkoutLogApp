@@ -31,6 +31,7 @@ struct LogView: View {
     @State private var workoutName = ""
     @State private var weight = ""
     @State private var sets = ""
+    @State private var showSuggested = true
     
     // I should probably move this...
     let workoutList = [
@@ -81,6 +82,11 @@ struct LogView: View {
         }
     }
     
+    enum Field: Hashable {
+        case workout, weight, sets
+    }
+    @FocusState private var focusedField: Field?
+    
     var body: some View {
         VStack{
             Text("Log a workout")
@@ -92,37 +98,52 @@ struct LogView: View {
                 
                 TextField("Workout name", text: $workoutName)
                     .textFieldStyle(.roundedBorder)
+                    .focused($focusedField, equals: .workout)
                     .padding()
+                    .onChange(of: workoutName) {
+                            showSuggested = true
+                        }
                 
-                ForEach(availableWorkouts, id: \.self) { suggestion in
-                        Text(suggestion)
-                        .padding(8)
-                        .foregroundColor(Color.blue)
-                            .onTapGesture {
-                                workoutName = suggestion
-                            }
-                    }
+                if showSuggested && !workoutName.isEmpty {
+                    ForEach(availableWorkouts, id: \.self) { suggestion in
+                            Text(suggestion)
+                            .padding(8)
+                            .foregroundColor(Color.blue)
+                                .onTapGesture {
+                                    workoutName = suggestion
+                                    showSuggested = false
+                                    UIApplication.shared.sendAction(
+                                            #selector(UIResponder.resignFirstResponder),
+                                            to: nil, from: nil, for: nil
+                                        )
+                                }
+                        }
+                }
                 
                 TextField("Weight amount", text: $weight)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
                     .padding()
+                    .focused($focusedField, equals: .weight)
                 
                 TextField("Number of sets", text: $sets)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.numberPad)
                     .padding()
+                    .focused($focusedField, equals: .sets)
             }
             .padding()
             .scrollContentBackground(.hidden)
             .background(Color.clear)
+            .scrollDismissesKeyboard(.interactively)
             
             Button("Log") {
-                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
+                focusedField = nil
             }
             .padding(.bottom, 300)
             .buttonStyle(.bordered)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
