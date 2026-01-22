@@ -59,8 +59,8 @@ struct Workouts: Identifiable, Hashable {
     }
 }
 
-struct LogWorkout : Identifiable, Hashable {
-    let id = UUID()
+struct LogWorkout : Identifiable, Codable {
+    var id = UUID()
     let name: String
     let date: Date
     let weight: Float

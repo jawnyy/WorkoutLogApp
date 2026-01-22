@@ -33,6 +33,8 @@ struct LogView: View {
     @State private var sets = ""
     @State private var showSuggested = true
     
+    @State private var workouts: [LogWorkout] = WorkoutStorage.shared.load()
+    
     // I should probably move this...
     let workoutList = [
         "Dumbbell Curls",
@@ -139,8 +141,27 @@ struct LogView: View {
             
             Button("Log") {
                 focusedField = nil
+                
+                if let weightVal = Float(weight), let setsVal = Int(sets) {
+                    
+                    let newWorkout = LogWorkout(
+                            name: workoutName,
+                            date: Date(),
+                            weight: weightVal,
+                            sets: setsVal,
+                        )
+                    
+                    workouts.append(newWorkout)
+                    WorkoutStorage.shared.save(workouts)
+                    
+                    workoutName = ""
+                    weight = ""
+                    sets = ""
+                    
+                }
+                
             }
-            .padding(.bottom, 300)
+            .padding(.bottom, 250)
             .buttonStyle(.bordered)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
@@ -193,7 +214,7 @@ struct WorkoutsView: View {
 }
 
 #Preview {
-    //HomeView()
-    LogView()
+    HomeView()
+    //LogView()
     //WorkoutsView()
 }
