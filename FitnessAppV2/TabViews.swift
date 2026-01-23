@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     @State private var date: Date = Date()
+    
+    @State private var workouts: [LogWorkout] = []
+
+    
     var body: some View {
         // NavigationStack for later development
 
@@ -22,7 +27,28 @@ struct HomeView: View {
             )
             .padding(50)
             
+            Spacer()
+            
+            List(workouts) { workout in
+                VStack(alignment: .leading) {
+                    Text(workout.name)
+                        .font(.headline)
+
+                    Text("\(workout.weight) lbs • \(workout.sets) sets")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+
+                    Text(workout.date.formatted(date: .abbreviated, time: .shortened))
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+            }
+            
         }
+        .onAppear() {
+            workouts = WorkoutStorage.shared.load()
+        }
+        
     }
 }
 
