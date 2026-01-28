@@ -66,7 +66,7 @@ struct HomeView: View {
             
         }
         .onAppear() {
-            workouts = WorkoutStorage.shared.load()
+            workouts = WorkoutStorage.shared.load().reversed()
         }
         
     }
@@ -170,7 +170,7 @@ struct LogView: View {
                 
                 TextField("Weight amount", text: $weight)
                     .textFieldStyle(.roundedBorder)
-                    .keyboardType(.decimalPad)
+                    .keyboardType(.numberPad)
                     .padding()
                     .focused($focusedField, equals: .weight)
                 
@@ -188,7 +188,7 @@ struct LogView: View {
             Button("Log") {
                 focusedField = nil
                 
-                if let weightVal = Float(weight), let setsVal = Int(sets) {
+                if let weightVal = Int(weight), let setsVal = Int(sets) {
                     
                     let newWorkout = LogWorkout(
                             name: workoutName,

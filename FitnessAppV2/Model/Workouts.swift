@@ -63,6 +63,6 @@ struct LogWorkout : Identifiable, Codable {
     var id = UUID()
     let name: String
     let date: Date
-    let weight: Float
+    let weight: Int
     let sets: Int
 }
