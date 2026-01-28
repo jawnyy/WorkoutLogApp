@@ -12,24 +12,44 @@ struct HomeView: View {
     @State private var date: Date = Date()
     
     @State private var workouts: [LogWorkout] = []
+    
+    @State private var buttonPressed: Bool = false
 
+    var filteredDate: [LogWorkout] {
+        if buttonPressed {
+            return workouts
+        } else {
+            return workouts.filter { Calendar.current.isDate($0.date, inSameDayAs: date) }
+        }
+    }
     
     var body: some View {
         // NavigationStack for later development
 
         VStack {
             
+            Button("View All") {
+                buttonPressed = true
+            }
+            .padding(.top, 40)
+            .buttonStyle(.bordered)
+            
+            Spacer()
+            
             DatePicker(
                 "Select Date",
                 selection: $date,
                 in: ...Date(),
-                displayedComponents: [.date],
+                displayedComponents: [.date]
             )
+            .onChange(of: date) {
+                buttonPressed = false
+            }
             .padding(50)
             
             Spacer()
             
-            List(workouts) { workout in
+            List(filteredDate) { workout in
                 VStack(alignment: .leading) {
                     Text(workout.name)
                         .font(.headline)
